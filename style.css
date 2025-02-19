@@ -1,0 +1,409 @@
+/* Reset e Variáveis Globais */
+:root {
+    --primary-color: #3498db;
+    --primary-dark: #2980b9;
+    --secondary-color: #2c3e50;
+    --light-gray: #f5f7fa;
+    --medium-gray: #e4e8ef;
+    --dark-gray: #6c7a89;
+    --success-color: #27ae60;
+    --error-color: #e74c3c;
+    --text-color: #333;
+    --white: #fff;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --transition: all 0.2s ease-in-out;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--light-gray);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--spacing-md);
+  }
+  
+  /* Utilitários de acessibilidade */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+  
+  /* Layout principal */
+  header {
+    text-align: center;
+    padding: var(--spacing-xl) 0;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  main {
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
+  }
+  
+  @media (min-width: 992px) {
+    main {
+      grid-template-columns: 7fr 3fr;
+      align-items: start;
+    }
+  }
+  
+  /* Títulos e textos */
+  .title {
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-md);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  
+  .subtitle {
+    color: var(--dark-gray);
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  h2, h3 {
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  /* Contêiner da calculadora */
+  .calculator-container {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  
+  /* Formulário da calculadora */
+  .calculator {
+    padding: var(--spacing-lg);
+  }
+  
+  .calculator-form {
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  fieldset {
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  legend {
+    padding: 0 var(--spacing-sm);
+    font-weight: 600;
+    color: var(--secondary-color);
+  }
+  
+  .input-group {
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+    color: var(--secondary-color);
+  }
+  
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .currency-symbol,
+  .percentage-symbol {
+    position: absolute;
+    color: var(--dark-gray);
+    padding: 0 var(--spacing-sm);
+  }
+  
+  .currency-symbol {
+    left: 0;
+  }
+  
+  .percentage-symbol {
+    right: 0;
+  }
+  
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    background-color: var(--white);
+  }
+  
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  }
+  
+  .input-wrapper input[type="text"] {
+    padding-left: 30px;
+  }
+  
+  input[id="taxaParcela"] {
+    padding-right: 25px;
+  }
+  
+  .form-text {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+    margin-top: var(--spacing-xs);
+  }
+  
+  .error-message {
+    color: var(--error-color);
+    font-size: 0.85rem;
+    margin-top: var(--spacing-xs);
+    min-height: 1.2rem;
+  }
+  
+  .calculate-button {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-md);
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: var(--spacing-lg);
+  }
+  
+  .calculate-button:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  .calculate-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.4);
+  }
+  
+  /* Indicador de carregamento */
+  .loading-indicator {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    margin: var(--spacing-lg) 0;
+  }
+  
+  .loading-indicator.active {
+    display: flex;
+  }
+  
+  .spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(52, 152, 219, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s linear infinite;
+    margin-right: var(--spacing-sm);
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Resultados */
+  .result {
+    display: none;
+    margin-top: var(--spacing-xl);
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  .result.active {
+    display: block;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .result-card {
+    background-color: var(--light-gray);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--medium-gray);
+  }
+  
+  .result-item:last-child {
+    border-bottom: none;
+  }
+  
+  .result-label {
+    font-weight: 600;
+    color: var(--secondary-color);
+  }
+  
+  .result-value {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+  }
+  
+  .result-details {
+    margin-top: var(--spacing-md);
+    font-size: 0.9rem;
+    color: var(--dark-gray);
+  }
+  
+  /* Informações adicionais */
+  .calculator-info {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .calculator-info h3 {
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .calculator-info p {
+    margin-bottom: var(--spacing-md);
+    color: var(--dark-gray);
+  }
+  
+  /* Rodapé */
+  footer {
+    text-align: center;
+    padding: var(--spacing-lg) 0;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    margin-top: auto;
+  }
+  
+  footer p {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  footer small {
+    font-size: 0.8rem;
+    opacity: 0.8;
+  }
+  
+  /* Espaços para anúncios */
+  .ad-slot {
+    width: 100%;
+    min-height: 90px;
+    background-color: var(--medium-gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--dark-gray);
+    font-size: 0.9rem;
+  }
+  
+  .ad-slot-top {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .ad-slot-bottom {
+    margin-top: var(--spacing-md);
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .title {
+      font-size: 1.5rem;
+      margin: 15px 15px 15px 15px;
+    }
+    
+    .subtitle {
+      font-size: 1rem;
+      margin: 15px 15px 15px 15px;
+    }
+    
+    fieldset {
+      padding: var(--spacing-md);
+    }
+    
+    .calculator {
+      padding: var(--spacing-md);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    body {
+        width: 100%;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+        position: relative;
+      }
+    
+    .result-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .result-value {
+      margin-top: var(--spacing-xs);
+    }
+  }
