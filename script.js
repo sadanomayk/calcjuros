@@ -1,33 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle form submission
-    const requestForm = document.getElementById('request-form');
-    requestForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            toolName: document.getElementById('tool-name').value,
-            description: document.getElementById('description').value,
-            timestamp: new Date().toISOString()
-        };
-        
-        // Get existing submissions from localStorage or initialize empty array
-        let submissions = JSON.parse(localStorage.getItem('toolRequests') || '[]');
-        
-        // Add new submission
-        submissions.push(formData);
-        
-        // Save back to localStorage
-        localStorage.setItem('toolRequests', JSON.stringify(submissions));
-        
-        // Clear form
-        requestForm.reset();
-        
-        // Show success message
-        alert('Sua solicitação foi enviada com sucesso! Entraremos em contato em breve.');
-    });
     // Lista de ferramentas disponíveis
     const tools = [
         {
@@ -41,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 'Conversor-Medidas',
             name: 'Conversor de Medidas',
-            description: 'Descrição da nova ferramenta.',
+            description: 'Transforme qualquer unidade de medida com facilidade usando nosso Conversor de Medidas!',
             category: 'conversores',
             icon: 'fa-exchange-alt',
             featured: true
@@ -222,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Configurar formulário de solicitação
-
+    const requestForm = document.getElementById('request-form');
     requestForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
