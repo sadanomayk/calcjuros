@@ -17,14 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
             icon: 'fa-exchange-alt',
             featured: true
         },
-        {
-            id: 'outra-ferramenta',
-            name: 'Outra Ferramenta',
-            description: 'Descrição da nova ferramenta.',
-            category: 'utilidades',
-            icon: 'fa-tools',
-            featured: true
-        },
+        
     ];
 
     // Categorias disponíveis
