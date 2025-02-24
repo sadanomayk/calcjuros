@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             featured: true
         },
         {
-            id: 'Conversor-Medidas',
+            id: 'conversor-medidas',
             name: 'Conversor de Medidas',
             description: 'Transforme qualquer unidade de medida com facilidade usando nosso Conversor de Medidas!',
             category: 'conversores',
