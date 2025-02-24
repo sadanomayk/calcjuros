@@ -44,6 +44,28 @@ a:hover {
     color: var(--primary-dark);
 }
 
+button[type="submit"] {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    /* Removendo align-self e margin-left que alinhavam à esquerda */
+    /* Adicionando margin horizontal automática para centralizar */
+    margin: 15px auto 0 auto; /* Margem superior, auto (horizontal), 0 inferior */
+    display: block; /* Garante que o margin: auto funcione */
+    width: fit-content; /* Ajusta a largura ao conteúdo do botão */
+    /* Ou se quiser uma largura fixa para o botão centralizado: */
+    /* width: 150px;  (Ajuste a largura desejada) */
+}
+
+button[type="submit"]:hover {
+    background-color: #4cae4c;
+}
+
 .btn {
     display: inline-block;
     background-color: var(--primary-color);
