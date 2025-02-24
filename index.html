@@ -134,27 +134,32 @@
         <div class="container">
             <div class="request-form-container">
                 <h2>Solicite uma ferramenta</h2>
-                <p>Precisa de uma ferramenta específica? Preencha o formulário abaixo e entraremos em contato.</p>
-                <!-- Formulário sem o action e method -->
-                <form id="request-form" action="https://formsubmit.co/artvin.stud@gmail.com" method="POST" target="_blank">
-                    <div class="form-group">
-                        <label for="name">Nome</label>
+                <p>Precisa de uma ferramenta específica? Preencha o formulário abaixo e Descreva a ferramenta que você precisa.</p>
+    
+                <form action="https://formsubmit.co/artvin.stud@gmail.com" method="POST">
+                    <div class="form-group"> <!-- Agrupa label e input para melhor organização e estilo -->
+                        <label for="name">Nome:</label>
                         <input type="text" id="name" name="name" required>
                     </div>
+    
                     <div class="form-group">
-                        <label for="email">Email</label>
+                        <label for="email">E-mail:</label>
                         <input type="email" id="email" name="email" required>
                     </div>
+    
                     <div class="form-group">
-                        <label for="tool-name">Nome da ferramenta</label>
-                        <input type="text" id="tool-name" name="tool-name" required>
+                        <label for="message">Mensagem:</label>
+                        <textarea id="message" name="message" rows="5" required></textarea> <!-- Adicionado rows para uma altura inicial melhor -->
                     </div>
-                    <div class="form-group">
-                        <label for="description">Descrição</label>
-                        <textarea id="description" name="description" rows="4" required></textarea>
+    
+                    <!-- Campos ocultos para formsubmit.co -->
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://seusite.com/obrigado.html">
+    
+                    <div class="form-group"> <!-- Agrupa o botão para consistência -->
+                        <button type="submit">Enviar</button>
                     </div>
-                    <button type="submit" class="btn">Enviar solicitação</button>
-                </form>                                
+                </form>
             </div>
             <div class="request-info">
                 <h3>Como funciona?</h3>
