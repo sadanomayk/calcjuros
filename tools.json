@@ -1,0 +1,5 @@
+[
+    { "name": "Calculadora de Juros do Cartão", "path": "tools/calculadora-juros-cartao/", "category":"financeiro" },
+    { "name": "Conversor de Medidas", "path": "tools/conversor-medidas/", "category": "conversores" },
+    { "name": "Outra Ferramenta", "path": "tools/outra-ferramenta/", "category": "outras" }
+]

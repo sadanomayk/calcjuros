@@ -1,262 +1,246 @@
-// script.js
 document.addEventListener('DOMContentLoaded', function() {
-    // Elementos do DOM
-    const tipoCobrancaSelect = document.getElementById('tipoCobranca');
-    const parcelasInputGroup = document.getElementById('parcelasInputGroup');
-    const taxaJuroLabel = document.getElementById('taxaJuroLabel');
-    const valorVendaInput = document.getElementById('valorVenda');
-    const quantidadeParcelasInput = document.getElementById('quantidadeParcelas');
-    const taxaParcelaInput = document.getElementById('taxaParcela');
-    const calcularBtn = document.getElementById('calcularBtn');
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    const resultadoDiv = document.getElementById('resultado');
+    // Handle form submission
+    const requestForm = document.getElementById('request-form');
+    requestForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            toolName: document.getElementById('tool-name').value,
+            description: document.getElementById('description').value,
+            timestamp: new Date().toISOString()
+        };
+        
+        // Get existing submissions from localStorage or initialize empty array
+        let submissions = JSON.parse(localStorage.getItem('toolRequests') || '[]');
+        
+        // Add new submission
+        submissions.push(formData);
+        
+        // Save back to localStorage
+        localStorage.setItem('toolRequests', JSON.stringify(submissions));
+        
+        // Clear form
+        requestForm.reset();
+        
+        // Show success message
+        alert('Sua solicitação foi enviada com sucesso! Entraremos em contato em breve.');
+    });
+    // Lista de ferramentas disponíveis
+    const tools = [
+        {
+            id: 'calculadora-juros-cartao',
+            name: 'Calculadora de Juros de Cartão',
+            description: 'Calcule os juros do seu cartão de crédito e veja quanto você pagará no total.',
+            category: 'financas',
+            icon: 'fa-credit-card',
+            featured: true
+        },
+        {
+            id: 'Conversor-Medidas',
+            name: 'Conversor de Medidas',
+            description: 'Descrição da nova ferramenta.',
+            category: 'conversores',
+            icon: 'fa-exchange-alt',
+            featured: true
+        },
+        {
+            id: 'outra-ferramenta',
+            name: 'Outra Ferramenta',
+            description: 'Descrição da nova ferramenta.',
+            category: 'utilidades',
+            icon: 'fa-tools',
+            featured: true
+        },
+    ];
 
-    // Elementos de erro
-    const valorVendaError = document.getElementById('valorVendaError');
-    const parcelasError = document.getElementById('parcelasError');
-    const taxaError = document.getElementById('taxaError');
+    // Categorias disponíveis
+    const categories = [
+        { id: 'financas', name: 'Finanças', icon: 'fa-calculator' },
+        { id: 'conversores', name: 'Conversores', icon: 'fa-exchange-alt' },
+        { id: 'utilidades', name: 'Utilidades', icon: 'fa-tools' }
+        // Adicione mais categorias conforme necessário
+    ];
 
-    // Ajusta a visibilidade do campo de parcelas baseado no tipo de cobrança
-    function mostrarEsconderParcelas() {
-      if (tipoCobrancaSelect.value === 'unica') {
-        parcelasInputGroup.style.display = 'none';
-        taxaJuroLabel.textContent = 'Taxa de Juro (%)';
-      } else {
-        parcelasInputGroup.style.display = 'block';
-        taxaJuroLabel.textContent = 'Taxa de Juro por Parcela (%)';
-      }
-    }
+    // Função para carregar as ferramentas
+    function loadTools(filter = 'all') {
+        const toolsGrid = document.getElementById('tools-grid');
+        toolsGrid.innerHTML = ''; // Limpa o conteúdo atual
 
-    // Formatação de entrada para valores monetários (MODIFICADO para formatação em tempo real)
-    function formatarInputMoeda(input) {
-      let valor = input.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+        // Filtra as ferramentas se necessário
+        const filteredTools = filter === 'all' 
+            ? tools 
+            : tools.filter(tool => tool.category === filter);
 
-      if (valor === '') {
-        input.value = ''; // Se não houver dígitos, limpa o campo
-        return;
-      }
-
-      valor = parseInt(valor, 10); // Converte para número inteiro (centavos)
-
-      let valorFormatado = (valor / 100).toLocaleString('pt-BR', { // Divide por 100 e formata
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-
-      input.value = valorFormatado;
-    }
-
-    // Formatação de entrada para porcentagens
-    function formatarInputPorcentagem(input) {
-      let valor = input.value.replace(/[^\d,]/g, '');
-      valor = valor.replace(',', '.');
-      if (valor !== '' && !isNaN(parseFloat(valor))) {
-        input.value = parseFloat(valor).toFixed(2).replace('.', ',');
-      }
-    }
-
-    // Validação do formulário
-    function validarFormulario() {
-      let isValid = true;
-
-      // Validar valor da venda
-      const valorVenda = valorVendaInput.value.replace(',', '.');
-      if (valorVenda === '' || isNaN(parseFloat(valorVenda)) || parseFloat(valorVenda) <= 0) {
-        valorVendaError.textContent = 'Digite um valor de venda válido';
-        valorVendaInput.classList.add('error');
-        isValid = false;
-      } else {
-        valorVendaError.textContent = '';
-        valorVendaInput.classList.remove('error');
-      }
-
-      // Validar quantidade de parcelas (se necessário)
-      if (tipoCobrancaSelect.value === 'parcela') {
-        const parcelas = parseInt(quantidadeParcelasInput.value);
-        if (isNaN(parcelas) || parcelas < 1 || parcelas > 24) {
-          parcelasError.textContent = 'Digite um número de parcelas entre 1 e 24';
-          quantidadeParcelasInput.classList.add('error');
-          isValid = false;
-        } else {
-          parcelasError.textContent = '';
-          quantidadeParcelasInput.classList.remove('error');
-        }
-      }
-
-      // Validar taxa de juros
-      const taxa = taxaParcelaInput.value.replace(',', '.');
-      if (taxa === '' || isNaN(parseFloat(taxa))) {
-        taxaError.textContent = 'Digite uma taxa de juros válida';
-        taxaParcelaInput.classList.add('error');
-        isValid = false;
-      } else if (parseFloat(taxa) < 0 || parseFloat(taxa) >= 100) {
-        taxaError.textContent = 'A taxa deve estar entre 0% e 100%';
-        taxaParcelaInput.classList.add('error');
-        isValid = false;
-      } else {
-        taxaError.textContent = '';
-        taxaParcelaInput.classList.remove('error');
-      }
-
-      return isValid;
-    }
-
-    // Formata valor para exibição monetária
-    function formatarMoeda(valor) {
-      return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      }).format(valor);
-    }
-
-    // Cálculo detalhado para exibição
-    function gerarDetalhesCalculo(valorOriginal, valorFinal, parcelas, taxa, tipoCobranca, tipoParcelamento) {
-      const diferenca = Math.abs(valorFinal - valorOriginal);
-      const taxaEfetiva = (diferenca / valorOriginal * 100).toFixed(2);
-
-      let detalhes = '';
-
-      if (tipoParcelamento === 'vendedor') {
-        detalhes = `<p>Valor original: ${formatarMoeda(valorOriginal)}</p>
-                    <p>Desconto total: ${formatarMoeda(diferenca)} (${taxaEfetiva}%)</p>`;
-
-        if (parcelas > 1) {
-          const valorParcela = valorOriginal / parcelas;
-          detalhes += `<p>Valor por parcela para o cliente: ${formatarMoeda(valorParcela)}</p>`;
-        }
-      } else {
-        detalhes = `<p>Valor original: ${formatarMoeda(valorOriginal)}</p>
-                    <p>Acréscimo total: ${formatarMoeda(diferenca)} (${taxaEfetiva}%)</p>`;
-
-        if (parcelas > 1) {
-          const valorParcela = valorFinal / parcelas;
-          detalhes += `<p>Valor por parcela para o cliente: ${formatarMoeda(valorParcela)}</p>`;
-        }
-      }
-
-      return detalhes;
-    }
-
-    // Função principal de cálculo
-    function calcular() {
-      // Validar formulário antes de calcular
-      if (!validarFormulario()) {
-        return;
-      }
-
-      // Mostrar indicador de carregamento
-      loadingIndicator.classList.add('active');
-      resultadoDiv.classList.remove('active');
-
-      // Simular processamento (opcional, para melhor experiência do usuário)
-      setTimeout(function() {
-        // MODIFICAÇÃO IMPORTANTE AQUI: LIMPAR O VALOR ANTES DE CONVERTER PARA NÚMERO
-        let valorVendaInputValue = valorVendaInput.value.replace(/\./g, '').replace(',', '.'); // Remove pontos e substitui vírgula por ponto
-        let valorVenda = parseFloat(valorVendaInputValue);
-
-        const tipoParcelamento = document.getElementById('tipoParcelamento').value;
-        const tipoCobranca = tipoCobrancaSelect.value;
-
-        let parcelas = 1;
-        if (tipoCobranca === 'parcela') {
-          parcelas = parseInt(quantidadeParcelasInput.value, 10);
+        // Verifica se há ferramentas para exibir
+        if (filteredTools.length === 0) {
+            toolsGrid.innerHTML = '<p class="no-tools">Nenhuma ferramenta encontrada nesta categoria.</p>';
+            return;
         }
 
-        const taxaParcela = parseFloat(taxaParcelaInput.value.replace(',', '.')) / 100;
+        // Adiciona cada ferramenta ao grid
+        filteredTools.forEach(tool => {
+            const toolCard = document.createElement('div');
+            toolCard.className = 'tool-card';
+            if (tool.featured) {
+                toolCard.classList.add('featured');
+            }
+            toolCard.setAttribute('data-category', tool.category);
 
-        console.log("Valores de entrada:");
-        console.log("Valor da Venda:", valorVenda);
-        console.log("Tipo de Parcelamento:", tipoParcelamento);
-        console.log("Tipo de Cobrança:", tipoCobranca);
-        console.log("Parcelas:", parcelas);
-        console.log("Taxa por Parcela:", taxaParcela);
+            toolCard.innerHTML = `
+                <div class="tool-icon">
+                    <i class="fas ${tool.icon}"></i>
+                </div>
+                <div class="tool-info">
+                    <h3>${tool.name}</h3>
+                    <p>${tool.description}</p>
+                </div>
+                <a href="tools/${tool.id}/index.html" class="tool-link">Abrir ferramenta</a>
+            `;
 
+            toolsGrid.appendChild(toolCard);
+        });
+    }
 
-        let valorFinal, valorCobrar, valorReceber;
+    // Função para buscar ferramentas
+    function searchTools(query) {
+        const toolsGrid = document.getElementById('tools-grid');
+        toolsGrid.innerHTML = ''; // Limpa o conteúdo atual
 
-        if (tipoCobranca === 'unica') {
-          if (tipoParcelamento === 'vendedor') {
-            valorFinal = valorVenda * (1 - taxaParcela);
-            valorCobrar = valorVenda;
-            valorReceber = valorFinal;
-          } else { // cliente
-            valorFinal = valorVenda / (1 - taxaParcela);
-            valorCobrar = valorFinal;
-            valorReceber = valorVenda;
-          }
-        } else { // parcela
-          if (tipoParcelamento === 'vendedor') {
-            valorFinal = valorVenda * (1 - (taxaParcela * parcelas));
-            valorCobrar = valorVenda;
-            valorReceber = valorFinal;
-          } else { // cliente
-            valorFinal = valorVenda / (1 - (taxaParcela * parcelas));
-            valorCobrar = valorFinal;
-            valorReceber = valorVenda;
-          }
+        if (!query) {
+            loadTools(); // Se a busca estiver vazia, carrega todas as ferramentas
+            return;
         }
 
-        console.log("\nValores calculados ANTES da formatação:");
-        console.log("Valor Final:", valorFinal);
-        console.log("Valor a Cobrar:", valorCobrar);
-        console.log("Valor a Receber:", valorReceber);
-
-
-        // Atualizar a interface com os resultados
-        document.getElementById('valorCobrar').textContent = formatarMoeda(valorCobrar);
-        document.getElementById('valorReceber').textContent = formatarMoeda(valorReceber);
-
-        // Gerar detalhes do cálculo
-        const detalhes = gerarDetalhesCalculo(
-          valorVenda,
-          tipoParcelamento === 'vendedor' ? valorReceber : valorCobrar,
-          parcelas,
-          taxaParcela,
-          tipoCobranca,
-          tipoParcelamento
+        // Filtra as ferramentas pelo termo de busca
+        const filteredTools = tools.filter(tool => 
+            tool.name.toLowerCase().includes(query.toLowerCase()) || 
+            tool.description.toLowerCase().includes(query.toLowerCase())
         );
 
-        document.getElementById('resultadoDetalhes').innerHTML = detalhes;
+        // Verifica se há ferramentas para exibir
+        if (filteredTools.length === 0) {
+            toolsGrid.innerHTML = '<p class="no-tools">Nenhuma ferramenta encontrada para a busca.</p>';
+            return;
+        }
 
-        // Esconder indicador de carregamento e mostrar resultados
-        loadingIndicator.classList.remove('active');
-        resultadoDiv.classList.add('active');
+        // Adiciona cada ferramenta ao grid
+        filteredTools.forEach(tool => {
+            const toolCard = document.createElement('div');
+            toolCard.className = 'tool-card';
+            if (tool.featured) {
+                toolCard.classList.add('featured');
+            }
+            toolCard.setAttribute('data-category', tool.category);
 
-        // Rolar até os resultados
-        resultadoDiv.scrollIntoView({ behavior: 'smooth' });
+            toolCard.innerHTML = `
+                <div class="tool-icon">
+                    <i class="fas ${tool.icon}"></i>
+                </div>
+                <div class="tool-info">
+                    <h3>${tool.name}</h3>
+                    <p>${tool.description}</p>
+                </div>
+                <a href="tools/${tool.id}/index.html" class="tool-link">Abrir ferramenta</a>
+            `;
 
-      }, 500); // Tempo de simulação do processamento
+            toolsGrid.appendChild(toolCard);
+        });
     }
 
-    // Inicialização e event listeners
-    mostrarEsconderParcelas();
+    // Função para carregar as categorias dinamicamente
+    function loadCategories() {
+        const categoryGrid = document.getElementById('category-grid');
+        categoryGrid.innerHTML = ''; // Limpa o conteúdo atual
 
-    // Evento para mostrar/esconder campo de parcelas
-    tipoCobrancaSelect.addEventListener('change', mostrarEsconderParcelas);
+        // Adiciona cada categoria ao grid
+        categories.forEach(category => {
+            const categoryCard = document.createElement('div');
+            categoryCard.className = 'category-card';
+            categoryCard.setAttribute('data-category', category.id);
 
-    // Formatação dos inputs monetários (MODIFICADO - evento 'input')
-    valorVendaInput.addEventListener('input', function() {
-      formatarInputMoeda(this);
+            categoryCard.innerHTML = `
+                <i class="fas ${category.icon}"></i>
+                <h3>${category.name}</h3>
+            `;
+
+            // Adiciona evento de clique para filtrar as ferramentas
+            categoryCard.addEventListener('click', function() {
+                // Atualiza a tag ativa
+                const tags = document.querySelectorAll('#filter-tags .tag');
+                tags.forEach(tag => tag.classList.remove('active'));
+                const targetTag = document.querySelector(`#filter-tags .tag[data-filter="${category.id}"]`);
+                if (targetTag) {
+                    targetTag.classList.add('active');
+                }
+
+                // Carrega as ferramentas filtradas
+                loadTools(category.id);
+                
+                // Scroll para a seção de ferramentas
+                document.getElementById('ferramentas').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            categoryGrid.appendChild(categoryCard);
+        });
+    }
+
+    // Inicialização
+    loadTools(); // Carrega todas as ferramentas inicialmente
+    loadCategories(); // Carrega as categorias
+
+    // Configurar filtros de tag
+    const filterTags = document.querySelectorAll('#filter-tags .tag');
+    filterTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+            // Remove a classe 'active' de todas as tags
+            filterTags.forEach(t => t.classList.remove('active'));
+            
+            // Adiciona a classe 'active' à tag clicada
+            this.classList.add('active');
+            
+            // Filtra as ferramentas
+            const filter = this.getAttribute('data-filter');
+            loadTools(filter);
+        });
     });
 
-    // Formatação dos inputs de porcentagem
-    taxaParcelaInput.addEventListener('blur', function() {
-      formatarInputPorcentagem(this);
+    // Configurar busca
+    const searchInput = document.getElementById('search-tools');
+    const searchBtn = document.getElementById('search-btn');
+
+    searchBtn.addEventListener('click', function() {
+        searchTools(searchInput.value);
     });
 
-    // Evento de clique no botão calcular
-    calcularBtn.addEventListener('click', calcular);
-
-    // Evento de envio do formulário (prevenir comportamento padrão)
-    document.getElementById('calculadoraForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      calcular();
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            searchTools(searchInput.value);
+        }
     });
 
-    // Permitir pressionar Enter para calcular
-    document.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        calcular();
-      }
+    // Configurar formulário de solicitação
+
+    requestForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Aqui você pode adicionar o código para enviar os dados do formulário
+        // para um backend ou serviço de email
+        
+        // Exemplo simples de validação e feedback
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const toolName = document.getElementById('tool-name').value;
+        const description = document.getElementById('description').value;
+        
+        if (name && email && toolName && description) {
+            // Simulação de envio bem-sucedido
+            alert(`Obrigado, ${name}! Sua solicitação para a ferramenta "${toolName}" foi enviada com sucesso. Entraremos em contato pelo email: ${email}`);
+            requestForm.reset();
+        } else {
+            alert('Por favor, preencha todos os campos do formulário.');
+        }
     });
-  });
+});
