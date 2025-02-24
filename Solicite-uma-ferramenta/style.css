@@ -1,0 +1,111 @@
+/* style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Ajuste a largura conforme necessário */
+    max-width: 600px; /* Largura máxima para telas maiores */
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    display: flex; /* Enable flexbox for form groups */
+    align-items: baseline; /* Aligns items at the baseline of the text */
+    margin-bottom: 15px; /* Add spacing between form groups */
+}
+
+label {
+    margin-top: 0; /* Remove default top margin from labels */
+    margin-bottom: 0; /* Remove default bottom margin from labels */
+    margin-right: 15px; /* Add space between label and input */
+    font-weight: bold;
+    color: #555;
+    text-align: right; /* Right-align the text within the label */
+    width: 100px; /* Set a fixed width for labels */
+    flex-shrink: 0; /* Prevent label from shrinking */
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    flex-grow: 1; /* Allow input fields to take up remaining space */
+}
+
+textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 100px;
+}
+
+button[type="submit"] {
+    background-color: #5cb85c; /* Cor verde Bootstrap */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    align-self: flex-start; /* Align button to the start of the form */
+    margin-left: 100px; /* Indent button to align with inputs */
+}
+
+button[type="submit"]:hover {
+    background-color: #4cae4c; /* Verde mais escuro no hover */
+}
+
+/* Estilos adicionais para melhorar a responsividade em telas menores */
+@media (max-width: 768px) {
+    .container {
+        width: 95%; /* Largura maior em telas menores */
+        margin: 10px; /* Adiciona margem nas laterais */
+    }
+
+    .form-group {
+        flex-direction: column; /* Stack labels and inputs vertically on smaller screens */
+    }
+
+    label {
+        text-align: left; /* Left-align labels on smaller screens */
+        margin-right: 0; /* Remove right margin on smaller screens */
+        margin-bottom: 5px; /* Add bottom margin for stacked labels */
+        width: auto; /* Allow labels to take auto width */
+    }
+
+    button[type="submit"] {
+        font-size: 14px; /* Diminui a fonte em telas menores */
+        margin-left: 0; /* Remove indentation on smaller screens */
+        align-self: stretch; /* Make button full width on smaller screens */
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+        font-size: 14px; /* Diminui a fonte em telas menores */
+    }
+}

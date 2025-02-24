@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt">
-<link rel="stylesheet" href="style.css">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Contato</title>
+    <link rel="stylesheet" href="style.css"> <!-- Certifique-se que o caminho para style.css está correto -->
 </head>
 <body>
-    <h2>Entre em Contato</h2>
-    
-    <form action="https://formsubmit.co/artvin.stud@gmail.com" method="POST">
-        <label for="name">Nome:</label>
-        <input type="text" id="name" name="name" required><br><br>
+    <div class="container"> <!-- Container para centralizar e estilizar o formulário -->
+        <h2>Fale Conosco:</h2>
 
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" required><br><br>
+        <form action="https://formsubmit.co/artvin.stud@gmail.com" method="POST">
+            <div class="form-group"> <!-- Agrupa label e input para melhor organização e estilo -->
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
 
-        <label for="message">Mensagem:</label>
-        <textarea id="message" name="message" required></textarea><br><br>
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
 
-        <!-- Impedir SPAM com um campo oculto -->
-        <input type="hidden" name="_captcha" value="false">
+            <div class="form-group">
+                <label for="message">Mensagem:</label>
+                <textarea id="message" name="message" rows="5" required></textarea> <!-- Adicionado rows para uma altura inicial melhor -->
+            </div>
 
-        <!-- Redirecionamento após o envio -->
-        <input type="hidden" name="_next" value="https://seusite.com/obrigado.html">
+            <!-- Campos ocultos para formsubmit.co -->
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://seusite.com/obrigado.html">
 
-        <button type="submit">Enviar</button>
-    </form>
+            <div class="form-group"> <!-- Agrupa o botão para consistência -->
+                <button type="submit">Enviar</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

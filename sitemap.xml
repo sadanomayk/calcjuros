@@ -1,15 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://juroscartao.site/</loc>
-        <lastmod>2024-02-24</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
-    <url>
-        <loc>https://juroscartao.site/calculadora-juros-cartao/</loc>
-        <lastmod>2024-02-24</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
+  <!-- Página principal -->
+  <url>
+    <loc>https://juroscartao.site/index.html</loc>
+    <lastmod>2025-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Página obrigado -->
+  <url>
+    <loc>https://juroscartao.site/obrigado/index.html</loc>
+    <lastmod>2025-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- Página Solicite-uma-ferramenta -->
+  <url>
+    <loc>https://juroscartao.site/Solicite-uma-ferramenta/index.html</loc>
+    <lastmod>2025-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Página send_email.php -->
+  <url>
+    <loc>https://juroscartao.site/Solicite-uma-ferramenta/send_email.php</loc>
+    <lastmod>2025-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <!-- Ferramentas -->
+  <url>
+    <loc>https://juroscartao.site/tools/calculadora-juros-cartao/index.html</loc>
+    <lastmod>2025-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://juroscartao.site/tools/conversor-medidas/index.html</loc>
+    <lastmod>2025-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
